@@ -51,7 +51,7 @@ export default defineConfig({
         testMatch: 'accessibility.spec.ts',
         use: {
           ...browser.use,
-          baseURL: 'https://www.w3.org/WAI/demos/', // /bad and /good
+          baseURL: 'https://a11y.me/',
         },
       },
       {
