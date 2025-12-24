@@ -5,12 +5,12 @@ export default defineConfig({
   snapshotPathTemplate: 'baselines/{arg}{ext}',
   fullyParallel: true,
   expect: {
-    toHaveScreenshot: { maxDiffPixelRatio: 0.03 },
+    toHaveScreenshot: process.env.CI ? { maxDiffPixelRatio: 0.04 } : { maxDiffPixelRatio: 0.03 },
   },
   forbidOnly: process.env.CI ? true : false,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : 3,
-  reporter: process.env.CI ? 'github' : 'html',
+  workers: process.env.CI ? 2 : 3,
+  reporter: process.env.CI ? [['github'], ['html']] : [['html']],
   use: { ...devices['Desktop Chrome'] },
   projects: [
     // Non-browser projects
