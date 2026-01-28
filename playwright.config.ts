@@ -2,7 +2,6 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  snapshotPathTemplate: 'baselines/{arg}{ext}',
   fullyParallel: true,
   expect: {
     timeout: process.env.CI ? 60000 : 45000,
@@ -37,7 +36,7 @@ export default defineConfig({
       testMatch: 'ui.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: 'https://www.saucedemo.com/',
       },
     },
     {
@@ -45,7 +44,7 @@ export default defineConfig({
       testMatch: 'ui.spec.ts',
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: 'https://www.saucedemo.com/',
       },
     },
     {
@@ -53,7 +52,7 @@ export default defineConfig({
       testMatch: 'ui.spec.ts',
       use: {
         ...devices['Desktop Safari'],
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: 'https://www.saucedemo.com/',
       },
     },
 
@@ -83,29 +82,52 @@ export default defineConfig({
       },
     },
 
+    // Mobile tests
+    {
+      name: 'mobile-chromium',
+      testMatch: 'mobile.spec.ts',
+      snapshotPathTemplate: 'baselines/mobile/android/{arg}{ext}',
+      use: {
+        ...devices['Pixel 7'],
+        baseURL: 'https://www.saucedemo.com/',
+      },
+    },
+    {
+      name: 'mobile-webkit',
+      testMatch: 'mobile.spec.ts',
+      snapshotPathTemplate: 'baselines/mobile/ios/{arg}{ext}',
+      use: {
+        ...devices['iPhone 15'],
+        baseURL: 'https://www.saucedemo.com/',
+      },
+    },
+
     // Visual tests
     {
       name: 'visual-chromium',
       testMatch: 'visual.spec.ts',
+      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: 'https://www.saucedemo.com/',
       },
     },
     {
       name: 'visual-firefox',
       testMatch: 'visual.spec.ts',
+      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: 'https://www.saucedemo.com/',
       },
     },
     {
       name: 'visual-webkit',
       testMatch: 'visual.spec.ts',
+      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Safari'],
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: 'https://www.saucedemo.com/',
       },
     },
   ],
