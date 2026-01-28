@@ -14,20 +14,20 @@
 ├── playwright.config.ts     # Test configuration and project definitions
 ├── tsconfig.json            # TypeScript configuration
 ├── pages/                   # Page Object Model classes
-│   ├── HomePage.ts
-│   ├── DynamicIdPage.ts
-│   └── ...
+│   └── LoginPage.ts
 ├── tests/
 │   ├── ui.spec.ts           # Cross-browser UI tests
 │   ├── api.spec.ts          # REST API tests
 │   ├── accessibility.spec.ts # axe-core a11y tests
-│   ├── visual.spec.ts       # Screenshot comparison tests
+│   ├── visual.spec.ts       # Screenshot comparison tests (desktop)
+│   ├── mobile.spec.ts       # Mobile screenshot tests
 │   ├── sql.spec.ts          # SQLite CRUD tests
 │   └── nosql.spec.ts        # MongoDB CRUD tests
 ├── baselines/               # Visual regression baseline images
-│   ├── HomePage.png
-│   ├── DynamicIdPage.png
-│   └── ...
+│   ├── web/                 # Desktop browser baselines
+│   └── mobile/
+│       ├── android/         # Pixel 7 baselines
+│       └── ios/             # iPhone 15 baselines
 ├── test-results/            # Test execution artifacts
 └── playwright-report/       # HTML report output
 ```
@@ -49,14 +49,20 @@ npx playwright test --project=api
 npx playwright test --project=ui-chromium
 npx playwright test --project=accessibility-chromium
 npx playwright test --project=visual-chromium
+npx playwright test --project=mobile-chromium
+npx playwright test --project=mobile-webkit
 npx playwright test --project=sql
 npx playwright test --project=nosql
 
 # Run single test by name
-npx playwright test -g "HomePage"
+npx playwright test -g "LoginPage"
 
 # Update visual regression baselines
 npx playwright test --project=visual-chromium --update-snapshots
+
+# Update mobile baselines
+npx playwright test --project=mobile-chromium --update-snapshots
+npx playwright test --project=mobile-webkit --update-snapshots
 
 # Show HTML report
 npx playwright show-report
@@ -66,10 +72,11 @@ npx playwright show-report
 
 ### Test Types and Projects
 
-- **UI Tests** (`ui.spec.ts`): Browser-based tests against uitestingplayground.com. Run on Chromium, Firefox, and WebKit.
+- **UI Tests** (`ui.spec.ts`): Browser-based tests against saucedemo.com. Run on Chromium, Firefox, and WebKit.
 - **API Tests** (`api.spec.ts`): REST API tests against restful-booker.herokuapp.com. No browser required.
 - **Accessibility Tests** (`accessibility.spec.ts`): axe-core based a11y testing against a11y.me. Multi-browser.
-- **Visual Tests** (`visual.spec.ts`): Screenshot comparison tests. Baselines stored in `baselines/`.
+- **Visual Tests** (`visual.spec.ts`): Desktop screenshot comparison tests against saucedemo.com. Baselines stored in `baselines/web/`.
+- **Mobile Tests** (`mobile.spec.ts`): Mobile screenshot tests using Pixel 7 (Android) and iPhone 15 (iOS) device emulation. Baselines stored in `baselines/mobile/`.
 - **SQL Tests** (`sql.spec.ts`): In-memory SQLite database CRUD tests using sql.js.
 - **NoSQL Tests** (`nosql.spec.ts`): MongoDB CRUD tests using mongodb-memory-server.
 
@@ -82,12 +89,19 @@ npx playwright show-report
 
 Tests use TypeScript template literal types for structured naming:
 ```typescript
+// UI/Visual/Mobile tests
+type TestCase = `${Page} - ${Assertion}`;
+test('LoginPage - Elements' satisfies TestCase, ...);
+
+// API tests
 type TestCase = `${Method} - ${Endpoint} - ${Operation} - ${StatusCode}`;
 test('POST - /auth - CreateToken - 200 OK' satisfies TestCase, ...);
 ```
 
 ### Configuration (playwright.config.ts)
 
-- Visual snapshot tolerance: 3% pixel difference ratio
-- CI mode: Uses GitHub reporter, single worker, 1 retry
+- Visual snapshot tolerance: 3% locally, 4% in CI
+- CI mode: Uses GitHub + HTML reporters, 2 workers, 1 retry
 - Local mode: HTML reporter, 3 workers, no retries
+- Mobile baselines organized by platform (`baselines/mobile/android/`, `baselines/mobile/ios/`)
+- Desktop baselines stored in `baselines/web/`
