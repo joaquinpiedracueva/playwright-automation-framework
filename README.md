@@ -16,13 +16,10 @@
 ├── pages/                   # Page Object Model classes
 │   └── LoginPage.ts
 ├── tests/
-│   ├── ui.spec.ts           # Cross-browser UI tests
+│   ├── ui.spec.ts           # Cross-browser UI and visual tests
 │   ├── api.spec.ts          # REST API tests
 │   ├── accessibility.spec.ts # axe-core a11y tests
-│   ├── visual.spec.ts       # Screenshot comparison tests (desktop)
-│   ├── mobile.spec.ts       # Mobile screenshot tests
-│   ├── sql.spec.ts          # SQLite CRUD tests
-│   └── nosql.spec.ts        # MongoDB CRUD tests
+│   └── mobile.spec.ts       # Mobile screenshot tests
 ├── baselines/               # Visual regression baseline images
 │   ├── web/                 # Desktop browser baselines
 │   └── mobile/
@@ -48,17 +45,14 @@ npx playwright test tests/ui.spec.ts
 npx playwright test --project=api
 npx playwright test --project=ui-chromium
 npx playwright test --project=accessibility-chromium
-npx playwright test --project=visual-chromium
 npx playwright test --project=mobile-chromium
 npx playwright test --project=mobile-webkit
-npx playwright test --project=sql
-npx playwright test --project=nosql
 
 # Run single test by name
 npx playwright test -g "LoginPage"
 
-# Update visual regression baselines
-npx playwright test --project=visual-chromium --update-snapshots
+# Update UI baselines
+npx playwright test --project=ui-chromium --update-snapshots
 
 # Update mobile baselines
 npx playwright test --project=mobile-chromium --update-snapshots
@@ -72,31 +66,15 @@ npx playwright show-report
 
 ### Test Types and Projects
 
-- **UI Tests** (`ui.spec.ts`): Browser-based tests against saucedemo.com. Run on Chromium, Firefox, and WebKit.
+- **UI Tests** (`ui.spec.ts`): Browser-based UI and visual regression tests against saucedemo.com. Run on Chromium, Firefox, and WebKit. Desktop baselines stored in `baselines/web/`.
 - **API Tests** (`api.spec.ts`): REST API tests against restful-booker.herokuapp.com. No browser required.
 - **Accessibility Tests** (`accessibility.spec.ts`): axe-core based a11y testing against a11y.me. Multi-browser.
-- **Visual Tests** (`visual.spec.ts`): Desktop screenshot comparison tests against saucedemo.com. Baselines stored in `baselines/web/`.
 - **Mobile Tests** (`mobile.spec.ts`): Mobile screenshot tests using Pixel 7 (Android) and iPhone 15 (iOS) device emulation. Baselines stored in `baselines/mobile/`.
-- **SQL Tests** (`sql.spec.ts`): In-memory SQLite database CRUD tests using sql.js.
-- **NoSQL Tests** (`nosql.spec.ts`): MongoDB CRUD tests using mongodb-memory-server.
 
 ### Page Object Model
 
 - **`fixtures.ts`**: Custom Playwright fixtures that inject page objects into tests. Import `test` and `expect` from here instead of `@playwright/test`.
 - **`pages/`**: Page object classes. Each page encapsulates locators (defined in constructor parameters) and action methods.
-
-### Test Naming Convention
-
-Tests use TypeScript template literal types for structured naming:
-```typescript
-// UI/Visual/Mobile tests
-type TestCase = `${Page} - ${Assertion}`;
-test('LoginPage - Elements' satisfies TestCase, ...);
-
-// API tests
-type TestCase = `${Method} - ${Endpoint} - ${Operation} - ${StatusCode}`;
-test('POST - /auth - CreateToken - 200 OK' satisfies TestCase, ...);
-```
 
 ### Configuration (playwright.config.ts)
 

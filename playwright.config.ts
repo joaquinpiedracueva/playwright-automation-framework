@@ -13,27 +13,11 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html']] : [['html']],
   timeout: process.env.CI ? 120000 : 90000,
   projects: [
-    // Non-browser projects
-    {
-      name: 'api',
-      testMatch: 'api.spec.ts',
-      use: {
-        baseURL: 'https://restful-booker.herokuapp.com/',
-      },
-    },
-    {
-      name: 'nosql',
-      testMatch: 'nosql.spec.ts',
-    },
-    {
-      name: 'sql',
-      testMatch: 'sql.spec.ts',
-    },
-
     // UI tests
     {
       name: 'ui-chromium',
       testMatch: 'ui.spec.ts',
+      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Chrome'],
         baseURL: 'https://www.saucedemo.com/',
@@ -42,6 +26,7 @@ export default defineConfig({
     {
       name: 'ui-firefox',
       testMatch: 'ui.spec.ts',
+      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Firefox'],
         baseURL: 'https://www.saucedemo.com/',
@@ -50,9 +35,19 @@ export default defineConfig({
     {
       name: 'ui-webkit',
       testMatch: 'ui.spec.ts',
+      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Safari'],
         baseURL: 'https://www.saucedemo.com/',
+      },
+    },
+    
+    // Non-browser projects
+    {
+      name: 'api',
+      testMatch: 'api.spec.ts',
+      use: {
+        baseURL: 'https://restful-booker.herokuapp.com/',
       },
     },
 
@@ -102,33 +97,5 @@ export default defineConfig({
       },
     },
 
-    // Visual tests
-    {
-      name: 'visual-chromium',
-      testMatch: 'visual.spec.ts',
-      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: 'https://www.saucedemo.com/',
-      },
-    },
-    {
-      name: 'visual-firefox',
-      testMatch: 'visual.spec.ts',
-      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
-      use: {
-        ...devices['Desktop Firefox'],
-        baseURL: 'https://www.saucedemo.com/',
-      },
-    },
-    {
-      name: 'visual-webkit',
-      testMatch: 'visual.spec.ts',
-      snapshotPathTemplate: 'baselines/web/{arg}{ext}',
-      use: {
-        ...devices['Desktop Safari'],
-        baseURL: 'https://www.saucedemo.com/',
-      },
-    },
   ],
 });

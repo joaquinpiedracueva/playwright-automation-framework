@@ -1,11 +1,5 @@
 import { test, expect } from '../fixtures';
 
-type Method = 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE';
-type Endpoint = '/auth' | '/booking' | '/booking/{id}'| '/ping';
-type Operation = 'HealthCheck' | 'CreateToken' | 'GetBookingIds' | 'CreateBooking' | 'GetBooking' | 'UpdateBooking' | 'PartialUpdateBooking' | 'DeleteBooking';
-type StatusCode = '200 OK' | '201 Created';
-type TestCase = `${Method} - ${Endpoint} - ${Operation} - ${StatusCode}`;
-
 interface BookingData {
   firstname: string;
   lastname: string;
@@ -50,7 +44,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // A simple health check endpoint to confirm whether the API is up and running
-  test('GET - /ping - HealthCheck - 201 Created' satisfies TestCase, async ({ request }) => {
+  test('should return 201 for health check', async ({ request }) => {
     const response = await request.get('/ping');
     const body = await response.text();
 
@@ -59,7 +53,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Creates a new auth token to use for access to the PUT and DELETE /booking
-  test('POST - /auth - CreateToken - 200 OK' satisfies TestCase, async ({ request }) => {
+  test('should create auth token', async ({ request }) => {
     const response = await request.post('/auth', {
       data: {
         username: 'admin',
@@ -73,7 +67,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Returns the ids of all the bookings that exist within the API
-  test('GET - /booking - GetBookingIds - 200 OK' satisfies TestCase, async ({ request }) => {
+  test('should get booking ids', async ({ request }) => {
     const response = await request.get('/booking');
     const body = await response.json();
 
@@ -84,7 +78,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Creates a new booking in the API
-  test('POST - /booking - CreateBooking - 200 OK' satisfies TestCase, async ({ request }) => {
+  test('should create a booking', async ({ request }) => {
     const bookingData = createBookingData();
 
     const response = await request.post('/booking', {
@@ -103,7 +97,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Returns a specific booking based upon the booking id provided
-  test('GET - /booking/{id} - GetBooking - 200 OK' satisfies TestCase, async ({ request }) => {
+  test('should get a booking by id', async ({ request }) => {
     const bookingData = createBookingData();
 
     const postResponse = await request.post('/booking', {
@@ -126,7 +120,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Updates a current booking
-  test('PUT - /booking/{id} - UpdateBooking - 200 OK' satisfies TestCase, async ({ request }) => {
+  test('should update a booking', async ({ request }) => {
     const bookingData = createBookingData();
 
     const postResponse = await request.post('/booking', {
@@ -159,7 +153,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Updates a current booking with a partial payload
-  test('PATCH - /booking/{id} - PartialUpdateBooking - 200 OK' satisfies TestCase, async ({ request }) => {
+  test('should partially update a booking', async ({ request }) => {
     const bookingData = createBookingData();
 
     const postResponse = await request.post('/booking', {
@@ -189,7 +183,7 @@ test.describe('Restful Booker API', () => {
   });
 
   // Deletes a current booking
-  test('DELETE - /booking/{id} - DeleteBooking - 201 Created' satisfies TestCase, async ({ request }) => {
+  test('should delete a booking', async ({ request }) => {
     const bookingData = createBookingData();
 
     const postResponse = await request.post('/booking', {
