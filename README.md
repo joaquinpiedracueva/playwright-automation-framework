@@ -31,21 +31,21 @@ npx playwright show-report
 
 ## Test Structure
 
-Specs are split by concern for easier maintenance and selective execution:
+tests are split by concern for easier maintenance and selective execution:
 
 ```
-specs/
-  ui-web-login.spec.ts          # Login flows, error handling, credentials
-  ui-web-elements.spec.ts       # Element visibility checks for all pages
-  ui-web-screenshots.spec.ts    # Visual regression screenshots
-  ui-mobile-login.spec.ts       # Mobile login flows
-  ui-mobile-elements.spec.ts    # Mobile element visibility checks
-  ui-mobile-screenshots.spec.ts # Mobile visual regression screenshots
-  accessibility.spec.ts         # WCAG compliance tests (a11y.me)
-  api.spec.ts                   # REST API tests
+tests/
+  ui-web-login.test.ts          # Login flows, error handling, credentials
+  ui-web-elements.test.ts       # Element visibility checks for all pages
+  ui-web-screenshots.test.ts    # Visual regression screenshots
+  ui-mobile-login.test.ts       # Mobile login flows
+  ui-mobile-elements.test.ts    # Mobile element visibility checks
+  ui-mobile-screenshots.test.ts # Mobile visual regression screenshots
+  accessibility.test.ts         # WCAG compliance tests (a11y.me)
+  api.test.ts                   # REST API tests
 ```
 
-Config uses glob patterns (`ui-web-*.spec.ts`, `ui-mobile-*.spec.ts`) so new spec files are automatically picked up by the matching projects.
+Config uses glob patterns (`ui-web-*.test.ts`, `ui-mobile-*.test.ts`) so new test files are automatically picked up by the matching projects.
 
 ## Architecture
 
@@ -77,11 +77,16 @@ page-objects/
 
 ```typescript
 // Tests reference the actual component, not a page that inherits it
-test('example', async ({ headerComponent, sidebarComponent, footerComponent, inventoryPage }) => {
+test("example", async ({
+  headerComponent,
+  sidebarComponent,
+  footerComponent,
+  inventoryPage
+}) => {
   await headerComponent.shoppingCartLink.click();
   await sidebarComponent.logoutLink.click();
   await expect(footerComponent.container).toBeVisible();
-  await expect(inventoryPage.title).toHaveText('Products');
+  await expect(inventoryPage.title).toHaveText("Products");
 });
 ```
 
@@ -99,7 +104,7 @@ Screenshots stored in `baselines/` with platform-specific paths:
 
 ### Playwright CLI
 
-Page object locators and tests were built using [playwright-cli](https://github.com/microsoft/playwright-cli) to interactively inspect the DOM, identify `data-test` attributes, and verify element states before adding them to the Page Object Model and test specs.
+Page object locators and tests were built using [playwright-cli](https://github.com/microsoft/playwright-cli) to interactively inspect the DOM, identify `data-test` attributes, and verify element states before adding them to the Page Object Model and test tests.
 
 ### Environment Variables
 

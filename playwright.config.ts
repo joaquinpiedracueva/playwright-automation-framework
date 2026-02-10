@@ -8,7 +8,7 @@ export default defineConfig({
   use: {
     testIdAttribute: 'data-test'
   },
-  testDir: './specs',
+  testDir: './tests',
   fullyParallel: true,
   expect: {
     timeout: process.env.CI ? 60000 : 45000,
@@ -23,7 +23,7 @@ export default defineConfig({
     // UI Web tests (desktop browsers)
     {
       name: 'ui-web-chromium',
-      testMatch: 'ui-web-*.spec.ts',
+      testMatch: 'ui-web-*.test.ts',
       snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Chrome'],
@@ -32,7 +32,7 @@ export default defineConfig({
     },
     {
       name: 'ui-web-firefox',
-      testMatch: 'ui-web-*.spec.ts',
+      testMatch: 'ui-web-*.test.ts',
       snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Firefox'],
@@ -41,7 +41,7 @@ export default defineConfig({
     },
     {
       name: 'ui-web-webkit',
-      testMatch: 'ui-web-*.spec.ts',
+      testMatch: 'ui-web-*.test.ts',
       snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Safari'],
@@ -52,7 +52,7 @@ export default defineConfig({
     // Non-browser projects
     {
       name: 'api',
-      testMatch: 'api.spec.ts',
+      testMatch: 'api.test.ts',
       use: {
         baseURL: 'https://restful-booker.herokuapp.com/',
       },
@@ -61,7 +61,7 @@ export default defineConfig({
     // Accessibility tests
     {
       name: 'accessibility-chromium',
-      testMatch: 'accessibility.spec.ts',
+      testMatch: 'accessibility.test.ts',
       use: {
         ...devices['Desktop Chrome'],
         baseURL: 'https://a11y.me/',
@@ -69,7 +69,7 @@ export default defineConfig({
     },
     {
       name: 'accessibility-firefox',
-      testMatch: 'accessibility.spec.ts',
+      testMatch: 'accessibility.test.ts',
       use: {
         ...devices['Desktop Firefox'],
         baseURL: 'https://a11y.me/',
@@ -77,7 +77,7 @@ export default defineConfig({
     },
     {
       name: 'accessibility-webkit',
-      testMatch: 'accessibility.spec.ts',
+      testMatch: 'accessibility.test.ts',
       use: {
         ...devices['Desktop Safari'],
         baseURL: 'https://a11y.me/',
@@ -87,7 +87,7 @@ export default defineConfig({
     // UI Mobile tests (mobile viewports)
     {
       name: 'ui-mobile-chromium',
-      testMatch: 'ui-mobile-*.spec.ts',
+      testMatch: 'ui-mobile-*.test.ts',
       snapshotPathTemplate: 'baselines/mobile/android/{arg}{ext}',
       use: {
         ...devices['Pixel 7'],
@@ -96,7 +96,7 @@ export default defineConfig({
     },
     {
       name: 'ui-mobile-webkit',
-      testMatch: 'ui-mobile-*.spec.ts',
+      testMatch: 'ui-mobile-*.test.ts',
       snapshotPathTemplate: 'baselines/mobile/ios/{arg}{ext}',
       use: {
         ...devices['iPhone 15'],
