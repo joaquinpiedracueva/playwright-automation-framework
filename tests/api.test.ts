@@ -43,6 +43,15 @@ test.describe('API Tests', () => {
     token = body.token;
   });
 
+  // test.beforeEach(async () => {
+  // });
+
+  // test.afterEach(async () => {
+  // });
+
+  // test.afterAll(async () => {
+  // });
+
   // A simple health check endpoint to confirm whether the API is up and running
   test('should return 201 for health check', async ({ request }) => {
     const response = await request.get('/ping');

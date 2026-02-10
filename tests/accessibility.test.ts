@@ -2,9 +2,18 @@ import { test, expect } from '../test';
 
 test.describe('Accessibility Tests', () => {
 
+  // test.beforeAll(async () => {
+  // });
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
+
+  // test.afterEach(async () => {
+  // });
+
+  // test.afterAll(async () => {
+  // });
 
   test('should have no wcag2a violations', async ({ axeBuilder }) => {
     const results = await axeBuilder.withTags(['wcag2a']).analyze();

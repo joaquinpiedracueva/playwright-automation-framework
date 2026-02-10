@@ -1,9 +1,19 @@
 import { test, expect } from '../test';
 
 test.describe('UI Web Screenshot Tests', () => {
+
+  // test.beforeAll(async () => {
+  // });
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
+
+  // test.afterEach(async () => {
+  // });
+
+  // test.afterAll(async () => {
+  // });
 
   test('should match login page screenshot', async ({ page }) => {
     await expect(page).toHaveScreenshot('login-page.png');

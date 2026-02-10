@@ -1,9 +1,19 @@
 import { test, expect } from '../test';
 
 test.describe('UI Mobile Login Tests', () => {
+
+  // test.beforeAll(async () => {
+  // });
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
+
+  // test.afterEach(async () => {
+  // });
+
+  // test.afterAll(async () => {
+  // });
 
   test('should display error message with locked out user', async ({ loginPage }) => {
     await loginPage.usernameInput.fill(process.env.LOCKED_OUT_USER!);

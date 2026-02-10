@@ -1,9 +1,19 @@
 import { test, expect } from '../test';
 
 test.describe('UI Web Element Tests', () => {
+
+  // test.beforeAll(async () => {
+  // });
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
+
+  // test.afterEach(async () => {
+  // });
+
+  // test.afterAll(async () => {
+  // });
 
   test('should display all login page elements', async ({ loginPage }) => {
     await expect(loginPage.heading).toBeVisible();

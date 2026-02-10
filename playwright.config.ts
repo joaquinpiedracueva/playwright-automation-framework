@@ -2,11 +2,17 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
+const ENV = process.env.ENV || 'prod';
+dotenv.config({ path: path.resolve(__dirname, `env/.env.${ENV}`), quiet: true });
 
 export default defineConfig({
+  globalSetup: require.resolve('./global-setup'),
+  globalTeardown: require.resolve('./global-teardown'),
   use: {
-    testIdAttribute: 'data-test'
+    testIdAttribute: 'data-test',
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
+    video: process.env.CI ? 'off' : 'retain-on-failure',
   },
   testDir: './tests',
   fullyParallel: true,
@@ -15,7 +21,7 @@ export default defineConfig({
     toHaveScreenshot: process.env.CI ? { maxDiffPixelRatio: 0.04 } : { maxDiffPixelRatio: 0.03 },
   },
   forbidOnly: process.env.CI ? true : false,
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 1 : 1,
   workers: process.env.CI ? 2 : 8,
   reporter: process.env.CI ? [['github'], ['html']] : [['html']],
   timeout: process.env.CI ? 120000 : 90000,
@@ -27,7 +33,7 @@ export default defineConfig({
       snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'https://www.saucedemo.com/',
+        baseURL: process.env.UI_BASE_URL!,
       },
     },
     {
@@ -36,7 +42,7 @@ export default defineConfig({
       snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: 'https://www.saucedemo.com/',
+        baseURL: process.env.UI_BASE_URL!,
       },
     },
     {
@@ -45,7 +51,7 @@ export default defineConfig({
       snapshotPathTemplate: 'baselines/web/{arg}{ext}',
       use: {
         ...devices['Desktop Safari'],
-        baseURL: 'https://www.saucedemo.com/',
+        baseURL: process.env.UI_BASE_URL!,
       },
     },
     
@@ -54,7 +60,7 @@ export default defineConfig({
       name: 'api',
       testMatch: 'api.test.ts',
       use: {
-        baseURL: 'https://restful-booker.herokuapp.com/',
+        baseURL: process.env.API_BASE_URL!,
       },
     },
 
@@ -64,7 +70,7 @@ export default defineConfig({
       testMatch: 'accessibility.test.ts',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'https://a11y.me/',
+        baseURL: process.env.ACCESSIBILITY_BASE_URL!,
       },
     },
     {
@@ -72,7 +78,7 @@ export default defineConfig({
       testMatch: 'accessibility.test.ts',
       use: {
         ...devices['Desktop Firefox'],
-        baseURL: 'https://a11y.me/',
+        baseURL: process.env.ACCESSIBILITY_BASE_URL!,
       },
     },
     {
@@ -80,7 +86,7 @@ export default defineConfig({
       testMatch: 'accessibility.test.ts',
       use: {
         ...devices['Desktop Safari'],
-        baseURL: 'https://a11y.me/',
+        baseURL: process.env.ACCESSIBILITY_BASE_URL!,
       },
     },
 
@@ -91,7 +97,7 @@ export default defineConfig({
       snapshotPathTemplate: 'baselines/mobile/android/{arg}{ext}',
       use: {
         ...devices['Pixel 7'],
-        baseURL: 'https://www.saucedemo.com/',
+        baseURL: process.env.UI_BASE_URL!,
       },
     },
     {
@@ -100,7 +106,7 @@ export default defineConfig({
       snapshotPathTemplate: 'baselines/mobile/ios/{arg}{ext}',
       use: {
         ...devices['iPhone 15'],
-        baseURL: 'https://www.saucedemo.com/',
+        baseURL: process.env.UI_BASE_URL!,
       },
     },
 

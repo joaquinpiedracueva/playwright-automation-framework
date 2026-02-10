@@ -92,7 +92,7 @@ test("example", async ({
 
 ### Accessibility Testing
 
-Uses [@axe-core/playwright](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright) for WCAG 2.0/2.1/2.2, Section 508, and best-practice checks against a11y.me.
+Uses [@axe-core/playwright](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright) for WCAG 2.0/2.1/2.2, Section 508, and best-practice checks against ACCESSIBILITY.me.
 
 ### Visual Baselines
 
@@ -106,6 +106,32 @@ Screenshots stored in `baselines/` with platform-specific paths:
 
 Page object locators and tests were built using [playwright-cli](https://github.com/microsoft/playwright-cli) to interactively inspect the DOM, identify `data-test` attributes, and verify element states before adding them to the Page Object Model and test tests.
 
-### Environment Variables
+### Environments
 
-Test credentials loaded from `.env` via dotenv. The `.env` file is tracked in git as it contains only public saucedemo.com test credentials for demonstration purposes.
+The `ENV` variable selects which environment file to load from `env/`. Defaults to `prod` if not set.
+
+```bash
+# Run against production (default)
+npx playwright test
+
+# Run against local
+ENV=local npx playwright test
+```
+
+On startup, the active environment and URLs are logged to the console:
+
+```
+Environment: prod
+UI:            https://www.saucedemo.com/
+API:           https://restful-booker.herokuapp.com/
+Accessibility: https://a11y.me/
+```
+
+| Environment | File             | UI             | API                          | Accessibility  |
+| ----------- | ---------------- | -------------- | ---------------------------- | -------------- |
+| `prod`      | `env/.env.prod`  | saucedemo.com  | restful-booker.herokuapp.com | a11y.me        |
+| `local`     | `env/.env.local` | localhost:3000 | localhost:3000               | localhost:3000 |
+
+To add a new environment, create `env/.env.<name>` with `UI_BASE_URL`, `API_BASE_URL`, and `ACCESSIBILITY_BASE_URL`, then run with `ENV=<name>`.
+
+In CI, the workflow defaults to `prod`. Use the **"Run workflow"** button in GitHub Actions to manually trigger against a different environment.
