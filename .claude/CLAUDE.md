@@ -52,7 +52,7 @@ Pattern: `{type}-{platform}-{concern}.test.ts` — e.g., `ui-web-login.test.ts`,
 
 ### CI vs Local
 
-`process.env.CI` toggles workers (2 vs 8), retries (1 vs 0), timeouts, screenshot diff thresholds, and reporters. GitHub Actions workflow supports manual `workflow_dispatch` with environment selection.
+`process.env.CI` toggles workers (2 vs 8), retries (1 vs 1), timeouts, screenshot diff thresholds, reporters (`blob` for sharding vs `html`), and fail-fast behavior (`maxFailures: 1` in CI, `0`/disabled locally). GitHub Actions runs 4 shards in parallel with `fail-fast: true` — the first shard failure cancels remaining shards and Playwright's `maxFailures: 1` stops the shard immediately on first test failure. Reports are merged and deployed to GitHub Pages.
 
 ### Visual Baselines
 

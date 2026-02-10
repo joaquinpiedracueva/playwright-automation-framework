@@ -1,8 +1,8 @@
 # 🎭 Playwright Automation Framework
 
-[![Playwright Tests](https://github.com/joaquinpiedracueva/test-automation-framework/actions/workflows/playwright.yml/badge.svg)](https://github.com/joaquinpiedracueva/test-automation-framework/actions/workflows/playwright.yml)
+[![Playwright Tests](https://github.com/joaquinpiedracueva/test-automation-framework/actions/workflows/playwright.yml/badge.svg)](https://github.com/joaquinpiedracueva/playwright-automation-framework/actions/workflows/playwright.yml)
 ![Playwright](https://img.shields.io/badge/playwright-v1.58.1-FFFFFF)
-[![Report](https://img.shields.io/badge/Test_Report-GitHub_Pages-blue)](https://joaquinpiedracueva.github.io/test-automation-framework/)
+[![Report](https://img.shields.io/badge/Test_Report-GitHub_Pages-blue)](https://joaquinpiedracueva.github.io/playwright-automation-framework/)
 
 A comprehensive Playwright + TypeScript test automation framework demonstrating cross-browser UI, API, accessibility, and visual regression testing.
 
@@ -136,4 +136,17 @@ Accessibility: https://a11y.me/
 
 To add a new environment, create `env/.env.<name>` with `UI_BASE_URL`, `API_BASE_URL`, and `ACCESSIBILITY_BASE_URL`, then run with `ENV=<name>`.
 
-In CI, the workflow defaults to `prod`. Use the **"Run workflow"** button in GitHub Actions to manually trigger against a different environment.
+In CI, the workflow defaults to `prod`. Use the **"Run workflow"** button in GitHub Actions to manually trigger a run.
+
+### CI Pipeline
+
+Tests run across **4 shards** in parallel on GitHub Actions. Two levels of fail-fast are configured:
+
+| Level | Setting | Effect |
+| ----- | ------- | ------ |
+| Playwright | `maxFailures: 1` | Stops the shard immediately on first test failure |
+| GitHub Actions | `fail-fast: true` | Cancels remaining shards once any shard fails |
+
+Locally, `maxFailures` is disabled (`0`) so all tests run to completion.
+
+After all shards finish, blob reports are merged into a single HTML report and deployed to [GitHub Pages](https://joaquinpiedracueva.github.io/playwright-automation-framework/).
