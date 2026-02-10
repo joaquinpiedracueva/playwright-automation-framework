@@ -20,22 +20,6 @@ npx playwright test
 npx playwright show-report
 ```
 
-## Running Tests
-
-```bash
-# Run specific test file
-npx playwright test tests/ui-web.spec.ts
-
-# Run specific project
-npx playwright test --project=ui-web-chromium
-
-# Run single test by name
-npx playwright test -g "should login successfully"
-
-# Update visual baselines
-npx playwright test --update-snapshots
-```
-
 ### Available Projects
 
 | Project                                                                   | Description                                         |
@@ -57,13 +41,25 @@ import {test, expect} from "../test";
 
 ### Page Object Model
 
-Page classes encapsulate locators and actions in `page-objects/`:
+Page and component classes encapsulate locators in `page-objects/`. Shared UI regions (header, sidebar, footer) are modeled as independent component classes rather than a base class with inheritance. This is a deliberate choice for readability: when a test clicks a sidebar link, it references `sidebar.logoutLink` instead of `inventoryPage.logoutLink`, making it clear which UI component is being interacted with.
+
+```
+page-objects/
+  login-page.ts            # Login-specific locators
+  inventory-page.ts        # Inventory-specific locators (sort, items)
+  header-component.ts      # Shared header (logo, cart, menu buttons)
+  sidebar-component.ts     # Shared sidebar (nav links)
+  footer-component.ts      # Shared footer (social links, copyright)
+```
 
 ```typescript
-export class LoginPage {
-  readonly usernameInput: Locator;
-  async login(username: string, password: string) { ... }
-}
+// Tests reference the actual component, not a page that inherits it
+test('example', async ({ header, sidebar, footer, inventoryPage }) => {
+  await header.shoppingCartLink.click();        // header owns this
+  await sidebar.logoutLink.click();             // sidebar owns this
+  await expect(footer.container).toBeVisible(); // footer owns this
+  await expect(inventoryPage.title).toHaveText('Products'); // page-specific
+});
 ```
 
 ### Visual Baselines
@@ -73,6 +69,10 @@ Screenshots stored in `baselines/` with platform-specific paths:
 - `baselines/web/` - Desktop browsers
 - `baselines/mobile/android/` - Android viewports
 - `baselines/mobile/ios/` - iOS viewports
+
+### Playwright CLI
+
+Login page locators and tests were built using [playwright-cli](https://github.com/microsoft/playwright-cli) to interactively inspect the DOM, identify `data-test` attributes, and verify error states before adding them to the Page Object Model and test specs.
 
 ### Environment Variables
 

@@ -9,6 +9,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@playwright/cli": "^0.1.0",
     "dotenv": "^17.2.3",
     "playwright": "^1.58.1"
   }

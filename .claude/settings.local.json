@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright-cli open:*)",
+      "Bash(npx playwright-cli:*)",
+      "Skill(playwright-cli)",
+      "Skill(playwright-cli:*)"
+    ]
+  }
+}

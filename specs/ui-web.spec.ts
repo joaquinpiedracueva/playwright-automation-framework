@@ -57,4 +57,85 @@ test.describe('UI Web Tests', () => {
     await expect(loginPage.errorMessage).toBeHidden();
     await expect(page).toHaveURL(inventoryPage.url)
   });
+
+  test('should display all login page elements', async ({ loginPage }) => {
+    await expect(loginPage.heading).toBeVisible();
+    await expect(loginPage.usernameInput).toBeVisible();
+    await expect(loginPage.passwordInput).toBeVisible();
+    await expect(loginPage.loginButton).toBeVisible();
+    await expect(loginPage.credentialsContainer).toBeVisible();
+    await expect(loginPage.credentialsInfo).toBeVisible();
+    await expect(loginPage.passwordInfo).toBeVisible();
+  });
+
+  test('should display error when submitting empty username', async ({ loginPage }) => {
+    await loginPage.loginButton.click();
+    await expect(loginPage.errorMessage).toBeVisible();
+    await expect(loginPage.errorMessage).toHaveText('Epic sadface: Username is required');
+  });
+
+  test('should display error when submitting empty password', async ({ loginPage }) => {
+    await loginPage.usernameInput.fill(process.env.STANDARD_USER!);
+    await loginPage.loginButton.click();
+    await expect(loginPage.errorMessage).toBeVisible();
+    await expect(loginPage.errorMessage).toHaveText('Epic sadface: Password is required');
+  });
+
+  test('should display error with invalid credentials', async ({ loginPage }) => {
+    await loginPage.usernameInput.fill('invalid_user');
+    await loginPage.passwordInput.fill('wrong_password');
+    await loginPage.loginButton.click();
+    await expect(loginPage.errorMessage).toBeVisible();
+    await expect(loginPage.errorMessage).toHaveText('Epic sadface: Username and password do not match any user in this service');
+  });
+
+  test('should dismiss error message when clicking error button', async ({ loginPage }) => {
+    await loginPage.loginButton.click();
+    await expect(loginPage.errorMessage).toBeVisible();
+    await loginPage.errorButton.click();
+    await expect(loginPage.errorMessage).toBeHidden();
+  });
+
+  test('should display correct credentials info', async ({ loginPage }) => {
+    await expect(loginPage.credentialsInfo).toContainText('standard_user');
+    await expect(loginPage.credentialsInfo).toContainText('locked_out_user');
+    await expect(loginPage.credentialsInfo).toContainText('problem_user');
+    await expect(loginPage.credentialsInfo).toContainText('performance_glitch_user');
+    await expect(loginPage.credentialsInfo).toContainText('error_user');
+    await expect(loginPage.credentialsInfo).toContainText('visual_user');
+    await expect(loginPage.passwordInfo).toContainText('secret_sauce');
+  });
+
+  test('should display headerComponent elements after login', async ({ loginPage, headerComponent }) => {
+    await loginPage.usernameInput.fill(process.env.STANDARD_USER!);
+    await loginPage.passwordInput.fill(process.env.STANDARD_USER_PASSWORD!);
+    await loginPage.loginButton.click();
+
+    await expect(headerComponent.heading).toBeVisible();
+    await expect(headerComponent.shoppingCartLink).toBeVisible();
+  });
+
+  test('should display footerComponent elements after login', async ({ loginPage, footerComponent }) => {
+    await loginPage.usernameInput.fill(process.env.STANDARD_USER!);
+    await loginPage.passwordInput.fill(process.env.STANDARD_USER_PASSWORD!);
+    await loginPage.loginButton.click();
+
+    await expect(footerComponent.container).toBeVisible();
+    await expect(footerComponent.socialTwitter).toBeVisible();
+    await expect(footerComponent.socialFacebook).toBeVisible();
+    await expect(footerComponent.socialLinkedin).toBeVisible();
+  });
+
+  test('should display inventory page elements', async ({ loginPage, inventoryPage }) => {
+    await loginPage.usernameInput.fill(process.env.STANDARD_USER!);
+    await loginPage.passwordInput.fill(process.env.STANDARD_USER_PASSWORD!);
+    await loginPage.loginButton.click();
+
+    await expect(inventoryPage.title).toBeVisible();
+    await expect(inventoryPage.title).toHaveText('Products');
+    await expect(inventoryPage.sortDropdown).toBeVisible();
+    await expect(inventoryPage.activeSortOption).toHaveText('Name (A to Z)');
+    await expect(inventoryPage.inventoryContainer).toBeVisible();
+    await expect(inventoryPage.inventoryItems).toHaveCount(6);
+  });
 });
