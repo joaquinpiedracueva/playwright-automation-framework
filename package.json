@@ -4,13 +4,13 @@
   "description": "Playwright + TypeScript CI-ready framework for cross-browser UI (Page Object Models + custom fixtures), API, accessibility, and visual regression testing",
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
-    "@playwright/test": "^1.58.1",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^25.0.3",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@playwright/cli": "^0.1.0",
     "dotenv": "^17.2.3",
-    "playwright": "^1.58.1"
+    "playwright": "^1.58.2"
   }
 }

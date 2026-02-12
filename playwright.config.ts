@@ -22,7 +22,7 @@ export default defineConfig({
   },
   forbidOnly: process.env.CI ? true : false,
   retries: process.env.CI ? 1 : 1,
-  workers: process.env.CI ? 2 : 8,
+  workers: process.env.CI ? 1 : 8,
   reporter: process.env.CI ? [['github'], ['blob']] : [['html']],
   timeout: process.env.CI ? 120000 : 90000,
   projects: [
