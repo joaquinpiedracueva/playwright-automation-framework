@@ -1,12 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  webServer: process.env.CI ? undefined : {
-    command: 'docker compose up',
-    port: 3000,
-    reuseExistingServer: true,
-    timeout: 60000,
-  },
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: 'docker compose up',
+        port: 3000,
+        reuseExistingServer: true,
+        timeout: 60000,
+      },
   use: {
     baseURL: 'http://localhost:3000',
     screenshot: process.env.CI ? 'only-on-failure' : 'only-on-failure',
