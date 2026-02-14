@@ -1,4 +1,4 @@
-import { test as auth, expect } from './test';
+import { test as auth, expect } from '../test';
 
 auth('register and login user', async ({ page, navComponent, registerPage, loginPage }) => {
   const email = `user_${Date.now()}@juiceshop.com`;

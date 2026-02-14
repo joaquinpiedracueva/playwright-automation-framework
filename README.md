@@ -3,6 +3,8 @@
 [![Playwright Tests](https://github.com/joaquinpiedracueva/playwright-juiceshop/actions/workflows/playwright.yml/badge.svg)](https://github.com/joaquinpiedracueva/playwright-juiceshop/actions/workflows/playwright.yml)
 [![🎭 Playwright Report](https://img.shields.io/badge/🎭_Playwright_Report-2b3137)](https://joaquinpiedracueva.github.io/playwright-juiceshop/)
 
+![Playwright Juice Shop](playwright-juiceshop.png)
+
 ## Description
 
 End-to-end test automation framework for [OWASP Juice Shop](https://demo.owasp-juice.shop/) built with Playwright and TypeScript
