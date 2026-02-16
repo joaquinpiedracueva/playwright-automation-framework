@@ -1,4 +1,9 @@
-import { test as auth, expect } from '../test';
+import fs from 'fs';
+import { test as auth, expect } from './fixtures';
+
+const authFile = '.auth/auth.json';
+
+auth.skip(() => fs.existsSync(authFile), 'auth.json already exists');
 
 auth('register and login user', async ({ page, navComponent, registerPage, loginPage }) => {
   const email = `user_${Date.now()}@juiceshop.com`;
@@ -14,5 +19,5 @@ auth('register and login user', async ({ page, navComponent, registerPage, login
   await expect(navComponent.shoppingCart).toBeVisible();
 
   // Save storage state
-  await page.context().storageState({ path: 'storage-state/auth.json' });
+  await page.context().storageState({ path: authFile });
 });

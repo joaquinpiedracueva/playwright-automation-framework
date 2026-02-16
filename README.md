@@ -3,7 +3,7 @@
 [![Playwright Tests](https://github.com/joaquinpiedracueva/playwright-juiceshop/actions/workflows/playwright.yml/badge.svg)](https://github.com/joaquinpiedracueva/playwright-juiceshop/actions/workflows/playwright.yml)
 [![🎭 Playwright Report](https://img.shields.io/badge/🎭_Playwright_Report-2b3137)](https://joaquinpiedracueva.github.io/playwright-juiceshop/)
 
-![Playwright Juice Shop](playwright-juiceshop.png)
+![Playwright Juice Shop](assets/playwright-juiceshop.png)
 
 ## Description
 
@@ -19,8 +19,8 @@ End-to-end test automation framework for [OWASP Juice Shop](https://demo.owasp-j
 ```bash
 git clone https://github.com/joaquinpiedracueva/playwright-juiceshop.git
 cd playwright-juiceshop
-open -a Docker
 npm install
 npx playwright install --with-deps
+# Docker must be running at this point
 npx playwright test
 ```

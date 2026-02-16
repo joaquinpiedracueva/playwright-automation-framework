@@ -1,10 +1,10 @@
 import { test as base } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { HomePage } from './page-objects/home-page';
-import { LoginPage } from './page-objects/login-page';
-import { RegisterPage } from './page-objects/register-page';
-import { NavComponent } from './page-objects/nav-component';
-import { SidebarComponent } from './page-objects/sidebar-component';
+import { HomePage } from '../page-objects/home-page';
+import { LoginPage } from '../page-objects/login-page';
+import { RegisterPage } from '../page-objects/register-page';
+import { NavComponent } from '../page-objects/nav-component';
+import { SidebarComponent } from '../page-objects/sidebar-component';
 
 type Fixtures = {
   axeBuilder: AxeBuilder;

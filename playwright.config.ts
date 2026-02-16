@@ -16,6 +16,7 @@ export default defineConfig({
     video: process.env.CI ? 'off' : 'retain-on-failure',
   },
   testDir: './tests',
+  snapshotPathTemplate: 'baselines/{arg}{ext}',
   fullyParallel: process.env.CI ? false : true,
   expect: {
     timeout: process.env.CI ? 60000 : 45000,
@@ -28,15 +29,15 @@ export default defineConfig({
   timeout: process.env.CI ? 120000 : 90000,
   projects: [
     {
-      name: 'auth',
-      testMatch: 'auth.ts',
+      name: 'setup',
+      testMatch: 'auth.setup.ts',
     },
     {
       name: 'chromium',
-      dependencies: ['auth'],
+      dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'storage-state/auth.json',
+        storageState: '.auth/auth.json',
       },
     },
   ],

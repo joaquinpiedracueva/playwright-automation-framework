@@ -14,4 +14,4 @@ node_modules/
 /.claude
 
 # storageState
-/storage-state
+/.auth

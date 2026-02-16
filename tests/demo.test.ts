@@ -1,23 +1,34 @@
-import { test, expect } from '../test';
+import { test, expect } from './fixtures';
 
-test.describe('unauthenticated', () => {
-  test.use({ storageState: { cookies: [], origins: [] } });
-
-  test('should register and login new user', async ({ navComponent, registerPage, loginPage }) => {
-    await registerPage.goto();
-    await navComponent.dismissDialogs();
-    const email = `user_${Date.now()}@juiceshop.com`;
-    const password = 'new_password';
-    await registerPage.register(email, password, 'Your eldest siblings middle name?', 'Bob');
-    await expect(loginPage.heading).toBeVisible();
-    await loginPage.login(email, password);
-    await expect(navComponent.shoppingCart).toBeVisible();
+test.describe('demo tests', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
   });
-});
-
-test.describe('authenticated', () => {
-  test('should logout when authenticated', async ({ navComponent, homePage }) => {
+  test('should match home page screenshot', async ({ homePage }) => {
     await homePage.goto();
+    await homePage.productCards.first().waitFor();
+    await expect(homePage.page).toHaveScreenshot('home-page.png');
+  });
+  test('should match nav component screenshot', async ({ navComponent }) => {
+    await navComponent.accountMenuButton.waitFor();
+    await expect(navComponent.component).toHaveScreenshot('nav-component.png');
+  });
+  test('should match sidebar component screenshot', async ({ navComponent, sidebarComponent }) => {
+    await navComponent.openSidenavButton.click();
+    await sidebarComponent.customerFeedbackLink.waitFor();
+    await expect(sidebarComponent.component).toHaveScreenshot('sidebar-component.png');
+  });
+  test('should match register page screenshot', async ({ registerPage, navComponent }) => {
+    await navComponent.logout();
+    await registerPage.goto();
+    await expect(registerPage.page).toHaveScreenshot('register-page.png');
+  });
+  test('should match login page screenshot', async ({ loginPage, navComponent }) => {
+    await navComponent.logout();
+    await loginPage.goto();
+    await expect(loginPage.page).toHaveScreenshot('login-page.png');
+  });
+  test('should logout when authenticated', async ({ navComponent }) => {
     await expect(navComponent.shoppingCart).toBeVisible();
     await navComponent.logout();
     await expect(navComponent.shoppingCart).not.toBeVisible();

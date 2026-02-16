@@ -2,6 +2,7 @@ import type { Locator, Page } from '@playwright/test';
 
 export class SidebarComponent {
   readonly page: Page;
+  readonly component: Locator;
   readonly heading: Locator;
   readonly customerFeedbackLink: Locator;
   readonly aboutUsLink: Locator;
@@ -11,6 +12,7 @@ export class SidebarComponent {
 
   constructor(page: Page) {
     this.page = page;
+    this.component = page.locator('mat-sidenav');
     this.heading = page.getByRole('heading', { name: 'OWASP Juice Shop' });
     this.customerFeedbackLink = page.getByLabel('Go to contact us page');
     this.aboutUsLink = page.getByLabel('Go to about us page');

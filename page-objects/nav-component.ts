@@ -2,6 +2,7 @@ import type { Locator, Page } from '@playwright/test';
 
 export class NavComponent {
   readonly page: Page;
+  readonly component: Locator;
   readonly welcomeBannerHeading: Locator;
   readonly helpGettingStartedButton: Locator;
   readonly dismissWelcomeBannerButton: Locator;
@@ -22,6 +23,7 @@ export class NavComponent {
 
   constructor(page: Page) {
     this.page = page;
+    this.component = page.locator('mat-toolbar').filter({ hasText: 'menu OWASP Juice Shop close' });
     this.welcomeBannerHeading = page.getByRole('heading', { name: 'Welcome to OWASP Juice Shop!' });
     this.helpGettingStartedButton = page.getByRole('button', { name: 'Help getting started' });
     this.dismissWelcomeBannerButton = page.getByRole('button', { name: 'Close Welcome Banner' });
