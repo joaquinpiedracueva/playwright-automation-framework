@@ -32,7 +32,7 @@ test.describe('demo tests', () => {
     await navComponent.logout();
     await expect(navComponent.shoppingCart).not.toBeVisible();
   });
-  test.skip(
+  test.fixme(
     'should match home page accessibility guidelines',
     {
       annotation: { type: 'issue', description: 'https://github.com/joaquinpiedracueva/playwright-juiceshop/issues/4' },
