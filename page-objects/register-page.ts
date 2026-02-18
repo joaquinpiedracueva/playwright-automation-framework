@@ -1,7 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
 export class RegisterPage {
-  readonly url = '/#/register';
   readonly page: Page;
   readonly heading: Locator;
   readonly emailInput: Locator;
@@ -29,7 +28,7 @@ export class RegisterPage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto(this.url);
+    await this.page.goto('/#/register');
   }
 
   async register(email: string, password: string, securityQuestion: string, securityAnswer: string): Promise<void> {

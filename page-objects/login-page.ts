@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
-  readonly url = '/#/login';
+  readonly url: string = '';
   readonly page: Page;
   readonly heading: Locator;
   readonly emailInput: Locator;
@@ -27,7 +27,7 @@ export class LoginPage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto(this.url);
+    await this.page.goto('/#/login');
   }
 
   async login(email: string, password: string): Promise<void> {

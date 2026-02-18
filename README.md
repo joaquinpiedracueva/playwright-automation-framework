@@ -1,7 +1,7 @@
 # 🎭 Playwright - 🧃 Juice Shop
 
 [![Playwright Tests](https://github.com/joaquinpiedracueva/playwright-juiceshop/actions/workflows/playwright.yml/badge.svg)](https://github.com/joaquinpiedracueva/playwright-juiceshop/actions/workflows/playwright.yml)
-[![🎭 Playwright Report](https://img.shields.io/badge/🎭_Playwright_Report-2b3137)](https://joaquinpiedracueva.github.io/playwright-juiceshop/)
+[![Playwright Report](https://img.shields.io/badge/🎭_Playwright_Report-2b3137)](https://joaquinpiedracueva.github.io/playwright-juiceshop/)
 
 ![Playwright Juice Shop](assets/playwright-juiceshop.png)
 
@@ -23,6 +23,11 @@ git clone https://github.com/joaquinpiedracueva/playwright-juiceshop.git
 cd playwright-juiceshop
 npm install
 npx playwright install --with-deps
-# Docker must be running at this point
+```
+
+## Usage
+
+```bash
+# Make sure Docker is running
 npx playwright test
 ```

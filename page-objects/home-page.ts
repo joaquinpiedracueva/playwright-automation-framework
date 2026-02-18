@@ -1,7 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
 export class HomePage {
-  readonly url = '/#/';
   readonly page: Page;
   readonly searchResultHeading: Locator;
   readonly productCards: Locator;
@@ -21,6 +20,6 @@ export class HomePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto(this.url);
+    await this.page.goto('/#/');
   }
 }
